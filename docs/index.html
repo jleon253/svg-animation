@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+    <title>SVG Animation - Vivus.js</title>
+
+    <link rel="stylesheet"
+      href="style.css">
+    <link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark"
+      style="background-color: #262626;">
+      <span class="navbar-brand mb-0 h1">SVG Animation - Vivus.js</span>
+    </nav>
+    <div class="container-fluid h-100">
+      <div id="rowContenedor"
+        class="row">
+        <div id="controls"
+          class="col-sm-12 col-md-12 col-lg-4 col-xl-4 bg-dark order-2 order-lg-1">
+          <div class="row mt-3">
+            <div class="col-12 mt-3 mx-auto d-flex flex-column">
+              <p class="text-light">Para comenzar, presiona 'Dibujar' :</p>
+              <div class="row">
+                <div class="col-6 mt-3 mx-auto d-flex flex-column">
+                  <button id="btnDibujar" class="btn btn-success mb-3"
+                    onclick="dibujar()">Dibujar</button>
+                  <button id="btnRebobinar" class="btn btn-warning mb-3"
+                    onclick="rebobinar()" disabled>Rebobinar</button>
+                </div>
+                <div class="col-6 mt-3 mx-auto d-flex flex-column">
+                  <button id="btnDetener" class="btn btn-secondary mb-3"
+                    onclick="detener()" disabled>Detener</button>
+                  <button id="btnBorrar" class="btn btn-danger mb-3"
+                    onclick="borrar()" disabled>Borrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 mt-3">
+              <div class="form-group">
+                <label class="text-light"
+                  for="myLog">Acciones:</label>
+                <textarea class="form-control h-50"
+                  id="myLog"
+                  rows="10"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="view"
+          class="col-sm-12 col-md-12 col-lg-8 col-xl-8 bg-light order-1 order-lg-2">
+          <object id="my-svg" type="image/svg+xml" data="final.svg" class="w-100 h-100"></object>
+        </div>
+      </div>
+    </div>
+
+    <!-- Link for javascript animated SVG https://github.com/maxwellito/vivus -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.5/vivus.min.js"></script>
+    <script>
+      const myLog = document.getElementById('myLog');
+      myLog.value = '';
+
+      const v = new Vivus(
+        "my-svg", {
+        type: 'scenario',
+        start: 'manual'
+      });
+
+      const dibujar = () => {
+        myLog.value += '* Dibujando SVG...\n';
+        document.getElementById('btnRebobinar').disabled = false;
+        document.getElementById('btnDetener').disabled = false;
+        document.getElementById('btnBorrar').disabled = false;
+        v.play(1, () => {
+          myLog.value += '* Se dibujo el SVG.\n'
+          document.getElementById('btnDibujar').disabled = true;
+        });
+      };
+
+      const rebobinar = () => {
+        myLog.value += '* Rebobinando SVG...\n';
+        document.getElementById('btnDibujar').disabled = false;
+        v.play(-1, () => myLog.value += '* Se rebobino el SVG.\n');
+      };
+
+      const detener = () => {
+        v.stop();
+        myLog.value += '* Animación detenida.\n';
+      };
+
+      const borrar = () => {
+        v.reset();
+        myLog.value += '* Animación borrada.\n';
+        setTimeout(() => {
+          document.getElementById('btnRebobinar').disabled = true;
+          document.getElementById('btnDetener').disabled = true;
+          document.getElementById('btnBorrar').disabled = true;
+          myLog.value = '';
+        }, 1000);
+      };
+
+    </script>
+  </body>
+
+</html>

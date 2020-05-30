@@ -1,0 +1,25 @@
+html, body{
+  height: 100vh;
+}
+
+#rowContenedor{
+  height: 100%;
+}
+
+#controls, #view{
+  height: 100%;
+}
+
+button.btn:disabled{
+  cursor: no-drop;
+}
+
+@media only screen and (max-width: 576px){
+  #controls{
+    height: 80%;
+  }
+
+  #view{
+    height: 20%;
+  }
+}
