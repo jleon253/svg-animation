@@ -101,6 +101,7 @@
         v.reset();
         myLog.value += '* Animación borrada.\n';
         setTimeout(() => {
+          document.getElementById('btnDibujar').disabled = false;
           document.getElementById('btnRebobinar').disabled = true;
           document.getElementById('btnDetener').disabled = true;
           document.getElementById('btnBorrar').disabled = true;
